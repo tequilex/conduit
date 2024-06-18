@@ -1,0 +1,1 @@
+export {DeleteArticle} from './DeleteArticle'

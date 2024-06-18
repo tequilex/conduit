@@ -1,0 +1,1 @@
+export {FormCreateArticle} from './FormCreateArticle'

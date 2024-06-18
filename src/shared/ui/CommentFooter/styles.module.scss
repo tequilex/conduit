@@ -1,0 +1,33 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  background: #f5f5f5;
+  padding: 0.75rem 1.25rem; 
+}
+
+.authorInfo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.username {
+  color: #5cb85c;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.date {
+  font-size: 12.8px;
+  color: #818a91;
+}

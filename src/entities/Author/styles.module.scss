@@ -1,0 +1,24 @@
+.author {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  text-align: left;
+}
+
+
+.authorAvatar {
+  border-radius: 50%;
+  width: 2rem;
+}
+
+.authorName {
+  color: #5CB85C;
+  font-weight: 500;
+  line-height: 1rem;
+}
+
+.date {
+  color: #bbb;
+  font-size: 0.8rem;
+  text-align: left;
+}

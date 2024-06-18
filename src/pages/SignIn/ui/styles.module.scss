@@ -1,0 +1,25 @@
+.signIn {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.container {
+  padding: 0.75rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+
+.toggle {
+  
+  color: #5CB85C;
+  transition:0.2s;
+
+  &:hover {
+    color: rgb(3, 118, 3);
+    text-decoration: underline;
+  }
+}
