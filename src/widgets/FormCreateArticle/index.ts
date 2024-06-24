@@ -1,1 +1,0 @@
-export {FormCreateArticle} from './FormCreateArticle'

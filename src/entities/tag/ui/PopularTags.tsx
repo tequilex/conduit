@@ -1,6 +1,6 @@
-import { observer } from "mobx-react-lite";
-import { Loader } from "../../../shared/ui/Loader";
-import styles from "./styles.module.scss";
+import { observer } from 'mobx-react-lite';
+import { Loader } from '../../../shared/ui/Loader';
+import styles from './styles.module.scss';
 
 interface TagsProps {
   tags: string[];
@@ -18,8 +18,7 @@ const PopularTags = observer(({ tags, handleFilter }: TagsProps) => {
               <li
                 onClick={() => handleFilter(tag)}
                 key={tag}
-                className={styles.tag}
-              >
+                className={styles.tag}>
                 {tag}
               </li>
             ))
@@ -32,6 +31,6 @@ const PopularTags = observer(({ tags, handleFilter }: TagsProps) => {
       </div>
     </div>
   );
-})
+});
 
-export default PopularTags
+export default PopularTags;

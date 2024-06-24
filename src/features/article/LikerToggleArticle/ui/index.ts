@@ -1,1 +1,1 @@
-export {LikerToggleArticle} from './LikerToggleArticle'
+export { LikerToggleArticle } from './LikerToggleArticle';

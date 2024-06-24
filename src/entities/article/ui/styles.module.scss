@@ -10,8 +10,8 @@
 }
 
 .likeWrap {
-  border: 1px solid #5CB85C;
-  color: #5CB85C;
+  border: 1px solid #5cb85c;
+  color: #5cb85c;
   padding: 0.25rem 0.5rem;
   border-radius: 0.2rem;
   display: flex;
@@ -21,13 +21,13 @@
 
   &:hover {
     color: #fff;
-    background-color: #5CB85C;
+    background-color: #5cb85c;
   }
 }
 
 .likeWrapActive {
   color: #fff;
-  background: #5CB85C;
+  background: #5cb85c;
   padding: 0.25rem 0.5rem;
   border-radius: 0.2rem;
   display: flex;
@@ -37,7 +37,7 @@
 
   &:hover {
     color: #fff;
-    background-color: #5CB85C;
+    background-color: #5cb85c;
   }
 }
 
@@ -45,7 +45,6 @@
   padding: 1rem 0;
   color: #000;
 }
-
 
 .title {
   font-size: 1.5rem;
@@ -65,15 +64,15 @@
 }
 
 .cardLink {
-    font-size: 0.8rem;
-    font-weight: 300;
-    color: #bbb;
-    vertical-align: middle;
-    transition: 0.2s;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #bbb;
+  vertical-align: middle;
+  transition: 0.2s;
 
-    &:hover {
-      color: #5CB85C
-    }
+  &:hover {
+    color: #5cb85c;
+  }
 }
 
 .tagList {

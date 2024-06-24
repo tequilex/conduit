@@ -1,11 +1,10 @@
-@import "../../../shared/styles/mixins.scss";
+@import '../../../shared/styles/mixins.scss';
 
 .homePage {
-  
 }
 
 .banner {
-  background-color: #5CB85C;
+  background-color: #5cb85c;
   margin-bottom: 2rem;
 }
 
@@ -52,8 +51,8 @@
 }
 
 .feedsActive {
-  color: #5CB85C;
-  border-bottom: 1px solid #5CB85C;
+  color: #5cb85c;
+  border-bottom: 1px solid #5cb85c;
   cursor: pointer;
 }
 
@@ -63,15 +62,14 @@
 }
 
 .globalActive {
-  color: #5CB85C;
-  border-bottom: 1px solid #5CB85C;
+  color: #5cb85c;
+  border-bottom: 1px solid #5cb85c;
   cursor: pointer;
-
 }
 
 .filtered {
-  color: #5CB85C;
-  border-bottom: 2px solid #5CB85C;
+  color: #5cb85c;
+  border-bottom: 2px solid #5cb85c;
   padding: 10px;
 }
 

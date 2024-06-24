@@ -1,7 +1,6 @@
 function formatDate(dateString: string): string {
-
   if (dateString === '') {
-    return ''
+    return '';
   }
 
   const date = new Date(dateString);
@@ -13,4 +12,4 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString('en-US', options);
 }
 
-export default formatDate
+export default formatDate;

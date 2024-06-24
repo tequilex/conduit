@@ -3,7 +3,7 @@
   top: 40%;
   left: 50%;
   margin-right: -50%;
-  transform: translate(-50%, -50%) ;
+  transform: translate(-50%, -50%);
   height: 40px;
   width: 40px;
   border-left: 3px solid currentColor;
@@ -12,15 +12,14 @@
   border-top: 3px solid transparent;
   border-radius: 50%;
   animation: loader 1s linear infinite;
-  color: #5CB85C;
+  color: #5cb85c;
 
   @keyframes loader {
     from {
       transform: rotate(0deg);
     }
     to {
-      transform: rotate(360deg)
+      transform: rotate(360deg);
     }
   }
 }
-

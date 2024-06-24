@@ -1,41 +1,41 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from 'react-router-dom';
 
-import { HomePage } from "../pages/Home";
-import { Profile } from "../pages/Profile";
-import { SignInPage } from "../pages/SignIn";
-import { SignUpPage } from "../pages/SignUp";
-import { ErrorPage } from "../pages/Error";
-import { Header } from "../shared/ui/Header";
-import { Article } from "../pages/Article";
-import { ArticleEdit } from "../pages/ArticleEdit";
-import { Settings } from "../pages/Settings";
+import { HomePage } from '../pages/home';
+import { Profile } from '../pages/profile';
+import { SignInPage } from '../pages/signIn';
+import { SignUpPage } from '../pages/signUp';
+import { ErrorPage } from '../pages/error';
+import { Header } from '../shared/ui/Header';
+import { Article } from '../pages/article';
+import { ArticleEdit } from '../pages/articleEdit';
+import { Settings } from '../pages/settings';
 
-import { ProtectedRoute } from "./protectedRoute";
+import { ProtectedRoute } from './ProtectedRoute';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Header />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: '/',
         element: <HomePage />,
       },
       {
-        path: "/signUp",
+        path: '/signUp',
         element: <SignUpPage />,
       },
       {
-        path: "/signIn",
+        path: '/signIn',
         element: <SignInPage />,
       },
       {
-        path: "/articles/:slug",
+        path: '/articles/:slug',
         element: <Article />,
       },
       {
-        path: "/profiles/:username",
+        path: '/profiles/:username',
         element: (
           <ProtectedRoute>
             <Profile />
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/editor/:slug?",
+        path: '/editor/:slug?',
         element: (
           <ProtectedRoute>
             <ArticleEdit />
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/settings",
+        path: '/settings',
         element: (
           <ProtectedRoute>
             <Settings />
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: '/profile',
         element: (
           <ProtectedRoute>
             <Profile />

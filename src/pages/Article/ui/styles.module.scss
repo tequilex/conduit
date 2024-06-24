@@ -1,14 +1,12 @@
-@import "../../../shared/styles/mixins.scss";
-
+@import '../../../shared/styles/mixins.scss';
 
 .article {
-
 }
 
 .articleHeader {
   background: #333;
   padding: 2rem 0;
-  margin: 0 0 2rem 0; 
+  margin: 0 0 2rem 0;
 }
 
 .title {
@@ -21,8 +19,8 @@
   margin-bottom: 2rem;
 
   @include tablets {
-  font-size: 1.5rem;
-  font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 500;
   }
 }
 
@@ -53,11 +51,11 @@
 
 .containerDescription {
   font-family: 'Source Serif Pro', serif;
-    font-size: 1.2rem;
-    line-height: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: left;
-    color: #373a3c;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  color: #373a3c;
 }
 
 .tagList {
@@ -74,7 +72,7 @@
 }
 
 .footerLinks {
-  color: #5CB85C;
+  color: #5cb85c;
 }
 
 .loaderWrap {

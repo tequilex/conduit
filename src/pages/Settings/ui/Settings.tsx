@@ -1,6 +1,6 @@
-import { Container } from "../../../shared/ui/Container";
-import { FormSettings } from "../../../widgets/FormSettings";
-import styles from "./styles.module.scss";
+import { Container } from '../../../shared/ui/Container';
+import { FormSettings } from '../../../widgets/FormSettings/ui';
+import styles from './styles.module.scss';
 
 export function Settings() {
   return (

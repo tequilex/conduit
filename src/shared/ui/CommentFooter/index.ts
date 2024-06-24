@@ -1,1 +1,1 @@
-export {default as CommentFooter} from './CommentFooter'
+export { default as CommentFooter } from './CommentFooter';

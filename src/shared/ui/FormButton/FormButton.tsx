@@ -1,4 +1,4 @@
-import styles from "./styles.module.scss";
+import styles from './styles.module.scss';
 
 interface ButtonProps {
   nameBut: string;
@@ -8,9 +8,8 @@ interface ButtonProps {
 export function FormButton({ nameBut, size }: ButtonProps) {
   return (
     <button
-      type="submit"
-      className={size === "small" ? styles.buttonSmall : styles.button}
-    >
+      type='submit'
+      className={size === 'small' ? styles.buttonSmall : styles.button}>
       {nameBut}
     </button>
   );

@@ -1,1 +1,1 @@
-export {ToggleFollowProfile} from './ToggleFollowProfile'
+export { ToggleFollowProfile } from './ToggleFollowProfile';

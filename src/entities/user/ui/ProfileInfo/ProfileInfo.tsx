@@ -1,5 +1,5 @@
-import { Profile } from "../../shared/utils/types";
-import styles from "./styles.module.scss";
+import { Profile } from '../../shared/utils/types';
+import styles from './styles.module.scss';
 
 interface ProfileProps {
   profile: Profile;

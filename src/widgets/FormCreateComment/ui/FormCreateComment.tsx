@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import { FormButton } from "../../shared/ui/FormButton";
-import { FormField } from "../../shared/ui/FormField";
-import { CommentCard } from "../../entities/comment/ui";
-import { CommentFooter } from "../../shared/ui/CommentFooter";
-import { FaTrashCan } from "react-icons/fa6";
-import styles from "./styles.module.scss";
-import { useStores } from "../../app/RootStore.context";
-import { Comment } from "../../shared/utils/types";
-import { createComment } from "../../features/comment/CreateComment/api/createComment";
-import { deleteComment } from "../../features/comment/DeleteComment/api/deleteComment";
-import { observer } from "mobx-react-lite";
+import { useEffect, useState } from 'react';
+import { FormButton } from '../../../shared/ui/FormButton';
+import { FormField } from '../../../shared/ui/FormField';
+import { CommentCard } from '../../../entities/comment/ui';
+import { CommentFooter } from '../../../shared/ui/CommentFooter';
+import { FaTrashCan } from 'react-icons/fa6';
+import styles from './styles.module.scss';
+import { useStores } from '../../../app/RootStore.context';
+import { Comment } from '../../../shared/utils/types';
+import { createComment } from '../../../features/comment/createComment/api/createComment';
+import { deleteComment } from '../../../features/comment/deleteComment/api/deleteComment';
+import { observer } from 'mobx-react-lite';
 
 interface FormCommentProps {
   slug?: string;
 }
 
 const FormCreateComment = observer(({ slug }: FormCommentProps) => {
-  const [bodyComment, setBodyComment] = useState("");
+  const [bodyComment, setBodyComment] = useState('');
   const {
     userStore: { user },
     commentsStore: { comments, setComments, fetchComments, cleanComments },
@@ -42,7 +42,7 @@ const FormCreateComment = observer(({ slug }: FormCommentProps) => {
   }, [slug, fetchComments, cleanComments]);
 
   const fieldReset = () => {
-    setBodyComment("");
+    setBodyComment('');
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -72,20 +72,27 @@ const FormCreateComment = observer(({ slug }: FormCommentProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
+    <form
+      onSubmit={handleSubmit}
+      className={styles.formContainer}>
       <CommentCard
         body={
           <FormField
-            placeholder="Write your comment..."
+            placeholder='Write your comment...'
             value={bodyComment}
             onChange={handleChange}
-            name="body"
+            name='body'
           />
         }
         footer={
           <CommentFooter
             avatar={user?.image}
-            button={<FormButton size="small" nameBut="Post comment" />}
+            button={
+              <FormButton
+                size='small'
+                nameBut='Post comment'
+              />
+            }
           />
         }
       />

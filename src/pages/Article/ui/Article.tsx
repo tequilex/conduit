@@ -1,18 +1,18 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { Author } from "../../../entities/user/ui/Author";
-import styles from "./styles.module.scss";
-import { Tag } from "../../../shared/ui/Tag";
-import { Container } from "../../../shared/ui/Container";
-import { Loader } from "../../../shared/ui/Loader";
-import { DeleteArticle } from "../../../features/article/DeleteArticle/ui";
-import { LikerToggleArticle } from "../../../features/article/LikerToggleArticle/ui";
-import { ToggleFollowProfile } from "../../../features/profile/ToggleFollowProfile/ui";
-import { FormCreateComment } from "../../../widgets/FormCreateComment";
-import { useStores } from "../../../app/RootStore.context";
-import { likerToggleArticle } from "../../../features/article/LikerToggleArticle/lib/likerToggleArticle";
-import { toggleFollowProfile } from "../../../features/profile/ToggleFollowProfile/api/toggleFollowProfile";
-import { useEffect } from "react";
-import { observer } from "mobx-react-lite";
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Author } from '../../../entities/user/ui/Author';
+import styles from './styles.module.scss';
+import { Tag } from '../../../shared/ui/Tag';
+import { Container } from '../../../shared/ui/Container';
+import { Loader } from '../../../shared/ui/Loader';
+import { DeleteArticle } from '../../../features/article/deleteArticle/ui';
+import { LikerToggleArticle } from '../../../features/article/likerToggleArticle/ui';
+import { ToggleFollowProfile } from '../../../features/profile/toggleFollowProfile/ui';
+import { FormCreateComment } from '../../../widgets/FormCreateComment/ui';
+import { useStores } from '../../../app/RootStore.context';
+import { likerToggleArticle } from '../../../features/article/likerToggleArticle/lib/likerToggleArticle';
+import { toggleFollowProfile } from '../../../features/profile/toggleFollowProfile/api/toggleFollowProfile';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 
 const Article = observer(() => {
   const { slug } = useParams();
@@ -25,7 +25,7 @@ const Article = observer(() => {
   useEffect(() => {
     if (!slug) return;
     fetchArticle(slug, {
-      onError: () => navigate("/"),
+      onError: () => navigate('/'),
     });
     return () => {
       clearArticle();
@@ -61,7 +61,7 @@ const Article = observer(() => {
           author: {
             ...response.profile,
           },
-        })
+        }),
       );
   };
 
@@ -72,11 +72,16 @@ const Article = observer(() => {
           <h1 className={styles.title}>{article.title}</h1>
           <div className={styles.userInfo}>
             <Link to={`/profiles/${username}`}>
-              <Author date={article.createdAt} author={article.author} />
+              <Author
+                date={article.createdAt}
+                author={article.author}
+              />
             </Link>
             {!user ? null : isCreater ? (
               <div className={styles.groupButtons}>
-                <Link className={styles.editButton} to={`/editor/${slug}`}>
+                <Link
+                  className={styles.editButton}
+                  to={`/editor/${slug}`}>
                   Edit Article
                 </Link>
                 <DeleteArticle slug={slug} />
@@ -103,7 +108,10 @@ const Article = observer(() => {
         </div>
         <ul className={styles.tagList}>
           {article.tagList.map((tag) => (
-            <Tag key={tag} tag={tag} />
+            <Tag
+              key={tag}
+              tag={tag}
+            />
           ))}
         </ul>
         <hr />
@@ -114,7 +122,9 @@ const Article = observer(() => {
             </Link>
             {!user ? null : isCreater ? (
               <div className={styles.groupButtons}>
-                <Link className={styles.editButton} to={`/editor/${slug}`}>
+                <Link
+                  className={styles.editButton}
+                  to={`/editor/${slug}`}>
                   Edit Article
                 </Link>
                 <DeleteArticle slug={slug} />
@@ -135,13 +145,17 @@ const Article = observer(() => {
           </div>
           {!user ? (
             <span>
-              <Link className={styles.footerLinks} to="/signIn">
+              <Link
+                className={styles.footerLinks}
+                to='/signIn'>
                 Sign in
-              </Link>{" "}
-              or{" "}
-              <Link className={styles.footerLinks} to="/signUp">
+              </Link>{' '}
+              or{' '}
+              <Link
+                className={styles.footerLinks}
+                to='/signUp'>
                 sign up
-              </Link>{" "}
+              </Link>{' '}
               to add comments on this article.
             </span>
           ) : (

@@ -1,4 +1,4 @@
-import { authFetch } from "../../../../shared/api/apiAuth";
+import { authFetch } from '../../../../shared/api/apiAuth';
 
 interface FormFieldsProps {
   title: string;
@@ -8,8 +8,8 @@ interface FormFieldsProps {
 }
 
 export const createArticle = (formFields: FormFieldsProps) => {
-  return authFetch("/articles", {
+  return authFetch('/articles', {
     body: JSON.stringify({ article: formFields }),
-    method: "POST",
+    method: 'POST',
   });
 };

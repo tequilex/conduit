@@ -1,1 +1,1 @@
-export {ArticleEdit} from './ui/ArticleEdit'
+export { ArticleEdit } from './ui/ArticleEdit';

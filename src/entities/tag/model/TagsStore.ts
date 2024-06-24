@@ -1,23 +1,22 @@
-import { authFetch } from "../../../shared/api/apiAuth"
-import { makeAutoObservable } from "mobx"
+import { authFetch } from '../../../shared/api/apiAuth';
+import { makeAutoObservable } from 'mobx';
 
 class TagsStore {
-  tags: string[] = []
+  tags: string[] = [];
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   setTags = (tags: string[]) => {
-    this.tags = tags
-  }
+    this.tags = tags;
+  };
 
   fetchTags = () => {
     authFetch('/tags')
       .then((response) => response.json())
       .then((data) => this.setTags(data.tags));
-  }
-
+  };
 }
 
-export default new TagsStore()
+export default new TagsStore();

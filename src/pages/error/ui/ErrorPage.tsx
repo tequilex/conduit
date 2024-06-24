@@ -1,5 +1,3 @@
 export function ErrorPage() {
-  return (
-    <div className="err">страница не найдена</div>
-  )
+  return <div className='err'>страница не найдена</div>;
 }

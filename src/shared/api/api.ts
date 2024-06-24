@@ -1,3 +1,3 @@
 export function apiUrl(query: string): string {
-  return `https://api.realworld.io/api${query}`
+  return `https://api.realworld.io/api${query}`;
 }

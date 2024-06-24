@@ -1,1 +1,1 @@
-export {ArticlePreview} from './ArticlePreview'
+export { ArticlePreview } from './ArticlePreview';

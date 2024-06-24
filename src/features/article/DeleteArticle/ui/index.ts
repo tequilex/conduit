@@ -1,1 +1,1 @@
-export {DeleteArticle} from './DeleteArticle'
+export { DeleteArticle } from './DeleteArticle';

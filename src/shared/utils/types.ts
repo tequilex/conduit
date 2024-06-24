@@ -17,36 +17,36 @@ export interface Article {
 }
 
 export interface Params {
-  slug?: string
+  slug?: string;
 }
 
 export interface Profile {
-  username: string,
-  bio: string,
-  image: string,
-  following: boolean
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
 }
 
 export interface LocalStorage {
-  email: string,
-  token: string,
-  username: string,
-  bio: string,
-  image: string
+  email: string;
+  token: string;
+  username: string;
+  bio: string;
+  image: string;
 }
 
 export interface User {
   email: string;
   password: string;
   username: string;
-  image: string
-  bio: string
+  image: string;
+  bio: string;
 }
 
 export interface Comment {
   id: number;
   body: string;
-  createdAt: string
+  createdAt: string;
   author: {
     username: string;
     image: string;
