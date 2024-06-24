@@ -1,19 +1,18 @@
-import { useContext } from "react";
-import { UserContext } from "../../../entities/User/user.context";
+import { observer } from "mobx-react-lite";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { Container } from "../Container";
 import styles from "./styles.module.scss";
+import { useStores } from "../../../app/RootStore.context";
 
-export function Header() {
-  const { user, setUser } = useContext(UserContext);
+const Header = observer(() => {
   const navigate = useNavigate();
-
-
+  const {userStore: {user, setUser}} = useStores()
+  
   const logOut = () => {
-    localStorage.removeItem('userInfo');
-    setUser(null)
-    navigate(0)
-  }
+    localStorage.removeItem("userInfo");
+    setUser(null);
+    navigate(0);
+  };
 
   return (
     <>
@@ -42,15 +41,22 @@ export function Header() {
                     </Link>
                   </li>
                   <li className={styles.headerItem}>
-                    <Link className={styles.headerLink} to={`/profiles/${user.username}`}>
-                    <img className={styles.avatar} src={user.image} alt={user.username} />
+                    <Link
+                      className={styles.headerLink}
+                      to={`/profiles/${user.username}`}
+                    >
+                      <img
+                        className={styles.avatar}
+                        src={user.image}
+                        alt={user.username}
+                      />
                       {user.username}
                     </Link>
                   </li>
-                  <Link to={'/'}>
-                  <li onClick={logOut} className={styles.headerLink}>
+                  <Link to={"/"}>
+                    <li onClick={logOut} className={styles.headerLink}>
                       Log out
-                  </li>
+                    </li>
                   </Link>
                 </>
               ) : (
@@ -74,4 +80,6 @@ export function Header() {
       <Outlet />
     </>
   );
-}
+});
+
+export default Header

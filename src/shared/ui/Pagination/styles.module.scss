@@ -1,6 +1,12 @@
 .pagination {
+  display: flex;
+    justify-content: center;
+}
+
+.paginationList {
   margin: 1rem 0;
   display: flex;
+  align-items: center;
   gap: 0.2rem;
   color: #5CB85C;
   flex-wrap: wrap;
@@ -31,4 +37,9 @@
   &:hover {
     background: green;
   }
+}
+
+.navBtn {
+  font-size: 1.2rem;
+  cursor: pointer;
 }

@@ -1,1 +1,1 @@
-export {FormCreateComment} from './FormCreateComment'
+export {default as FormCreateComment} from './FormCreateComment'

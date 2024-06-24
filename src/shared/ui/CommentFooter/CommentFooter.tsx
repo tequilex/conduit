@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import formatDate from "../../utils/dateFormatter";
 import styles from "./styles.module.scss";
+import { observer } from "mobx-react-lite";
 
 interface FooterProps {
   avatar?: string;
-  button: JSX.Element;
+  button?: JSX.Element | null;
   username?: string,
   date?: string 
 }
 
-export function CommentFooter({ avatar, button, username, date = '' }: FooterProps) {
+const CommentFooter = observer(({ avatar, button, username, date = '' }: FooterProps) => {
 
   const formattedDate = formatDate(date)
 
@@ -25,4 +26,5 @@ export function CommentFooter({ avatar, button, username, date = '' }: FooterPro
       {button}
     </div>
   );
-}
+})
+export default CommentFooter

@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
-import { UserContext } from "../../entities/User/user.context";
+import { useState } from "react";
 import { FormField } from "../../shared/ui/FormField";
 import { FormButton } from "../../shared/ui/FormButton";
 import { authFetch } from "../../shared/api/apiAuth";
+import { useStores } from "../../app/RootStore.context";
+import { observer } from "mobx-react-lite";
+
 import styles from "./styles.module.scss";
 
 const defaultFormFields = {
@@ -11,9 +13,9 @@ const defaultFormFields = {
   password: "",
 };
 
-export function FormSignIn() {
+const FormSignIn = observer(() => {
+  const {userStore: {setUser}} = useStores()
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { setUserData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +32,7 @@ export function FormSignIn() {
         return response.json();
       })
       .then((response) => {
-        setUserData(response.user), navigate("/");
+        setUser(response.user), navigate("/");
       })
       .catch(() => alert("что то пошло не так"));
   };
@@ -59,4 +61,6 @@ export function FormSignIn() {
       </form>
     </div>
   );
-}
+})
+
+export default FormSignIn

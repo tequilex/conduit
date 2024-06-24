@@ -1,1 +1,0 @@
-export {FollowProfile} from './FollowProfile'

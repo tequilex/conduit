@@ -1,66 +1,83 @@
-import { useContext } from "react";
-import { ArticlePreview } from "../../../entities/ArticlePreview";
+import { ArticlePreview } from "../../../entities/article/ui/ArticlePreview.tsx";
 import { Pagination } from "../../../shared/ui/Pagination";
 import { Container } from "../../../shared/ui/Container";
-import { PopularTags } from "../../../entities/PopularTags";
+import { PopularTags } from "../../../entities/tag/ui/";
 import { Loader } from "../../../shared/ui/Loader";
 import { Tabs } from "../../../shared/ui/Tabs";
-import { UserContext } from "../../../entities/User/user.context.tsx";
-import useGetArticlesQuery from "../../../entities/hooks/useGetArticlesQuery.ts";
-import useGetTagsQuery from "../../../entities/hooks/useGetTagsQuery.ts";
 import styles from "./styles.module.scss";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useStores } from "../../../app/RootStore.context.ts";
+import { observer } from "mobx-react-lite";
 
 const defaultTabs = [
   {
-    key: '1',
-    name: 'Global feed',
+    key: "1",
+    name: "Global feed",
   },
   {
-    key: '2',
-    name: 'Your feed',
+    key: "2",
+    name: "Your feed",
   },
 ];
 
-export function HomePage() {
-  const { user } = useContext(UserContext);
-
+const HomePage = observer(() => {
   const {
-    articles,
-    isLoading,
-    totalPages,
-    currentPage,
-    tag,
-    handlePageChange,
-    filterByTag,
-    deleteTag,
-    getFeed,
-  } = useGetArticlesQuery("limit=10", 10);
+    userStore: { user },
+    tagsStore: { tags, fetchTags },
+    articlesStore: {
+      data,
+      isLoading,
+      tag,
+      currentPage,
+      totalPages,
+      fetchAllArticles,
+      fetchFeedArticles,
+      fetchFilteredArticles,
+      setPage,
+      setTag,
+    },
+  } = useStores();
 
   const [activeTab, setActiveTab] = useState(defaultTabs[0].key);
 
-  const tags = useGetTagsQuery();
+  useEffect(() => {
+    fetchTags()
+  }, [fetchTags])
+
+  useEffect(() => {
+    if(activeTab === '1') fetchAllArticles(10);
+    if(activeTab === '2') fetchFeedArticles(10)
+    if(activeTab === '3') fetchFilteredArticles(10, tag)
+  }, [currentPage, tag, fetchAllArticles, fetchFeedArticles, fetchFilteredArticles, activeTab]);
+
 
   const tabsWithTags = useMemo(() => {
-    const tabs = user ? defaultTabs : defaultTabs.filter(tab => tab.key !== '2');
+    const tabs = user
+      ? defaultTabs
+      : defaultTabs.filter((tab) => tab.key !== "2");
     if (tag) {
-      setActiveTab('3');
+      setActiveTab("3");
       return [
         ...tabs,
         {
-          key: '3',
+          key: "3",
           name: tag,
-        }
-      ]
+        },
+      ];
     }
 
     return tabs;
   }, [tag, user]);
 
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
   const handleTabs = (key: string) => {
-    if(key === "1") {deleteTag()}
-    if(key === "2") {getFeed()}
-  }
+    if (key !== "3" ) {
+    setTag('')}
+    setActiveTab(key)
+  };
 
   return (
     <div className={styles.homePage}>
@@ -72,13 +89,18 @@ export function HomePage() {
       </div>
       <Container>
         <div className={styles.feedWrap}>
-          <PopularTags tags={tags} handleFilter={filterByTag} />
+          <PopularTags tags={tags} handleFilter={setTag} />
           <div className={styles.articlesWrap}>
             <div className={styles.feedNav}>
-              <Tabs items={tabsWithTags} handleTabs={handleTabs} activeKey={activeTab} onChange={(key) => setActiveTab(key)} />
+              <Tabs
+                items={tabsWithTags}
+                handleTabs={handleTabs}
+                activeKey={activeTab}
+                onChange={(key) => setActiveTab(key)}
+              />
             </div>
             {!isLoading ? (
-              articles.map((article) => (
+              data.articles.map((article) => (
                 <ArticlePreview key={article.slug} article={article} />
               ))
             ) : (
@@ -88,7 +110,7 @@ export function HomePage() {
             )}
             <Pagination
               currentPage={currentPage}
-              totalPages={totalPages}
+              totalPages={totalPages(10)}
               handlePageChange={handlePageChange}
             />
           </div>
@@ -96,4 +118,6 @@ export function HomePage() {
       </Container>
     </div>
   );
-}
+});
+
+export default HomePage;

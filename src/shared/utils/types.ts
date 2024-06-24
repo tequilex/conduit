@@ -21,10 +21,10 @@ export interface Params {
 }
 
 export interface Profile {
-    username: string,
-    bio: string,
-    image: string,
-    following: boolean
+  username: string,
+  bio: string,
+  image: string,
+  following: boolean
 }
 
 export interface LocalStorage {
@@ -38,6 +38,17 @@ export interface LocalStorage {
 export interface User {
   email: string;
   password: string;
-  username?: string;
+  username: string;
   image: string
+  bio: string
+}
+
+export interface Comment {
+  id: number;
+  body: string;
+  createdAt: string
+  author: {
+    username: string;
+    image: string;
+  };
 }

@@ -1,1 +1,1 @@
-export {FormEditArticle} from './FormEditArticle'
+export {default as FormEditArticle} from './FormEditArticle'

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { FormButton } from "../../shared/ui/FormButton";
 import { FormField } from "../../shared/ui/FormField";
-import { authFetch } from "../../shared/api/apiAuth";
-
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
+import { createArticle } from "../../features/article/CreateArticle/api/createArticle";
 
 const defaultFormFields = {
   title: "",
@@ -20,10 +19,7 @@ export function FormCreateArticle() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    authFetch("/articles", {
-      body: JSON.stringify({ article: formFields }),
-      method: "POST",
-    })
+    createArticle(formFields)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Ошибка запроса");

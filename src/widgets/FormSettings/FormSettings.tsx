@@ -1,9 +1,10 @@
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../../entities/User/user.context";
+import { useEffect, useState } from "react";
 import { FormButton } from "../../shared/ui/FormButton";
 import { FormField } from "../../shared/ui/FormField";
-import { authFetch } from "../../shared/api/apiAuth";
+import { User } from "../../shared/utils/types";
 import styles from "./styles.module.scss";
+import { useStores } from "../../app/RootStore.context";
+import { updateProfile } from "../../features/profile/UpdateProfile/api/updateProfile";
 
 const defaultFormFields = {
   username: "",
@@ -14,15 +15,14 @@ const defaultFormFields = {
 };
 
 export function FormSettings() {
-  const [formFields, setFormFields] = useState(defaultFormFields);
+  const {userStore: {user, setUser}} = useStores()
+  const [formFields, setFormFields] = useState<User>(defaultFormFields);
   const { image, username, email, bio } = formFields;
-  const {setUserData} = useContext(UserContext)
 
   useEffect(() => {
-    authFetch("/user")
-      .then((response) => response.json())
-      .then((response) => setFormFields(response.user));
-  }, []);
+    if(!user) return
+    setFormFields(user)
+  }, [user]);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
     const { name, value } = e.target;
@@ -31,12 +31,9 @@ export function FormSettings() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    authFetch('/user', {
-      body: JSON.stringify({user: formFields}),
-      method: 'PUT'
-    })
+    updateProfile(formFields)
     .then(response => response.json())
-    .then(response => setUserData(response.user))
+    .then(response => setUser(response.user))
   }
 
   return (

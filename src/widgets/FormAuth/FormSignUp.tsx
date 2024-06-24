@@ -1,10 +1,10 @@
-import { useState, useContext } from "react";
-import { UserContext } from "../../entities/User/user.context";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormField } from "../../shared/ui/FormField";
 import { FormButton } from "../../shared/ui/FormButton";
 import { authFetch } from "../../shared/api/apiAuth";
 import styles from "./styles.module.scss";
+import { useStores } from "../../app/RootStore.context";
 
 const defaultFormFields = {
   username: "",
@@ -13,8 +13,9 @@ const defaultFormFields = {
 };
 
 export function FormSignUp() {
+  const {userStore: {setUser}} = useStores()
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { setUserData } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +31,7 @@ export function FormSignUp() {
         return response.json();
       })
       .then((response) => {
-        setUserData(response.user), navigate("/");
+        setUser(response.user), navigate("/");
       })
       .catch(() => alert("что то пошло не так"));
   };

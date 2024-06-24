@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FormButton } from "../../shared/ui/FormButton";
 import { FormField } from "../../shared/ui/FormField";
-import { authFetch } from "../../shared/api/apiAuth";
-import useGetArticleQuery from "../../entities/hooks/useGetArticleQuery";
-
+import { useStores } from "../../app/RootStore.context";
+import { updateArticle } from "../../features/article/UpdateArticle/api/updateArticle";
 import styles from "./styles.module.scss";
+import { observer } from "mobx-react-lite";
 
 const defaultFormFields = {
   title: "",
@@ -14,12 +14,18 @@ const defaultFormFields = {
   tagList: [] as string[],
 };
 
-export function FormEditArticle() {
+const FormEditArticle = observer(() => {
+  const {articlesStore: {article, fetchArticle}} = useStores()
   const [formFields, setFormFields] = useState(defaultFormFields);
   const {slug} = useParams()
   const navigate = useNavigate()
-  
-  const {article}  = useGetArticleQuery(slug);
+
+  useEffect(() => {
+    if (!slug) return
+    fetchArticle(slug, {
+      onError: () => navigate('/')
+    })
+  }, [slug, fetchArticle, navigate])
   
     useEffect(() => {
       if (article) {
@@ -35,10 +41,8 @@ export function FormEditArticle() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    authFetch(`/articles/${slug}`, {
-      body: JSON.stringify({ article: formFields }),
-      method: "PUT",
-    })
+    if (!slug) return
+    updateArticle(slug, formFields)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Ошибка запроса");
@@ -91,4 +95,6 @@ export function FormEditArticle() {
       </form>
     </div>
   );
-}
+})
+
+export default FormEditArticle
