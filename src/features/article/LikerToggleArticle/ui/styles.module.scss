@@ -1,0 +1,31 @@
+.dislikeButton {
+  display: flex;
+  gap: 0.3rem;
+  background: #dc3545;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: red;
+  }
+}
+
+.likeButton {
+  display: flex;
+  gap: 0.3rem;
+  background: #5cb85c;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: green;
+  }
+}

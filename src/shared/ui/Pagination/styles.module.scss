@@ -1,0 +1,45 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.paginationList {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: #5cb85c;
+  flex-wrap: wrap;
+}
+
+.paginationItem {
+  border: 1px solid gray;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: #5cb85c;
+    color: #fff;
+  }
+}
+
+.paginationItemActive {
+  border: 1px solid gray;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  background: #5cb85c;
+  color: #fff;
+  transition: 0.2s;
+
+  &:hover {
+    background: green;
+  }
+}
+
+.navBtn {
+  font-size: 1.2rem;
+  cursor: pointer;
+}

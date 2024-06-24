@@ -1,0 +1,48 @@
+@import '../../../shared/styles/mixins.scss';
+
+.tagsWrap {
+  width: 25%;
+
+  @include tablets {
+    width: 100%;
+  }
+}
+
+.tagsMenu {
+  background: #f3f3f3;
+  padding: 0.3rem 0.4rem;
+  border-radius: 0.3rem;
+  text-align: left;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.tagsList {
+  display: flex;
+  row-gap: 0.3rem;
+  column-gap: 0.3rem;
+  flex-wrap: wrap;
+  padding-top: 0.3rem;
+}
+
+.tag {
+  background-color: #818a91;
+  color: #fff;
+  border-radius: 0.7rem;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #687077;
+  }
+}
+
+.loaderWrap {
+  position: relative;
+  height: 80px;
+  width: 200px;
+}

@@ -1,0 +1,81 @@
+.articleCard {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  text-align: left;
+}
+
+.group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.likeWrap {
+  border: 1px solid #5cb85c;
+  color: #5cb85c;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.2rem;
+  display: flex;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: #fff;
+    background-color: #5cb85c;
+  }
+}
+
+.likeWrapActive {
+  color: #fff;
+  background: #5cb85c;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.2rem;
+  display: flex;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: #fff;
+    background-color: #5cb85c;
+  }
+}
+
+.articleInfo {
+  padding: 1rem 0;
+  color: #000;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 1rem;
+  color: #999;
+  font-weight: 300;
+}
+
+.articleBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardLink {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #bbb;
+  vertical-align: middle;
+  transition: 0.2s;
+
+  &:hover {
+    color: #5cb85c;
+  }
+}
+
+.tagList {
+  display: flex;
+  gap: 0.5rem;
+}

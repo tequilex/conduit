@@ -1,0 +1,1 @@
+export { LikerToggleArticle } from './LikerToggleArticle';
