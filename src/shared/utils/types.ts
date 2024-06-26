@@ -52,3 +52,7 @@ export interface Comment {
     image: string;
   };
 }
+
+export interface Errors {
+  errors: Record<string, string[]>;
+}

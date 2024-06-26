@@ -1,78 +1,108 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { FormField } from '../../../shared/ui/FormField';
 import { FormButton } from '../../../shared/ui/FormButton';
 import { authFetch } from '../../../shared/api/apiAuth';
 import styles from './styles.module.scss';
 import { useStores } from '../../../app/RootStore.context';
+import { Errors } from '../../../shared/utils/types';
 
-const defaultFormFields = {
-  username: '',
-  email: '',
-  password: '',
-};
+interface SignUpForm {
+  username: string;
+  email: string;
+  password: string;
+}
 
 export function FormSignUp() {
   const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+  });
+  const {
     userStore: { setUser },
   } = useStores();
-  const [formFields, setFormFields] = useState(defaultFormFields);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    authFetch('/users', {
-      body: JSON.stringify({ user: formFields }),
-      method: 'POST',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Ошибка запроса');
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setUser(response.user), navigate('/');
-      })
-      .catch(() => alert('что то пошло не так'));
-  };
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { name, value } = e.target;
-    setFormFields({ ...formFields, [name]: value });
+  const submit = async (data: SignUpForm) => {
+    try {
+      const response = await authFetch('/users', {
+        body: JSON.stringify({ user: data }),
+        method: 'POST',
+      });
+      if (response.status > 209) {
+        const errorData: Errors = await response.json();
+        Object.entries(errorData.errors).forEach(([field, messages]) => {
+          setError(
+            field as keyof SignUpForm,
+            {
+              type: 'server',
+              message: messages.join(', '),
+            },
+            { shouldFocus: true },
+          );
+        });
+        return;
+      }
+      const responseData = await response.json();
+      setUser(responseData.user);
+      navigate('/');
+    } catch (error) {
+      console.error('Unexpected error', error);
+    }
   };
 
   return (
     <div className={styles.form}>
-      <form
-        onSubmit={handleSubmit}
-        className={styles.formContainer}>
+      <form onSubmit={handleSubmit(submit)} className={styles.formContainer}>
         <FormField
-          required
-          onChange={handleChange}
+          {...register('username', {
+            required: 'Username is required',
+            minLength: {
+              value: 6,
+              message: 'Username must be more than 6 characters',
+            },
+          })}
           type='text'
           name='username'
           placeholder='Username'
         />
+        {errors.username && (
+          <p className={styles.alert}>{errors.username.message}</p>
+        )}
         <FormField
-          required
-          onChange={handleChange}
+          {...register('email', {
+            required: 'Email is required',
+          })}
           type='email'
           name='email'
           placeholder='Email'
         />
+        {errors.email && <p className={styles.alert}>{errors.email.message}</p>}
         <FormField
-          required
-          onChange={handleChange}
+          {...register('password', {
+            required: 'Password is required',
+            minLength: {
+              value: 6,
+              message: 'Password must be more than 6 characters',
+            },
+          })}
           type='password'
           name='password'
           placeholder='Password'
         />
-        <FormButton
-          size='big'
-          nameBut='Sign up'
-        />
+        {errors.password && (
+          <p className={styles.alert}>{errors.password.message}</p>
+        )}
+        <FormButton size='big' nameBut='Sign up' />
       </form>
     </div>
   );

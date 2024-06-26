@@ -77,6 +77,10 @@ const HomePage = observer(() => {
 
   const handlePageChange = (page: number) => {
     setPage(page);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const handleTabs = (key: string) => {
@@ -96,10 +100,7 @@ const HomePage = observer(() => {
       </div>
       <Container>
         <div className={styles.feedWrap}>
-          <PopularTags
-            tags={tags}
-            handleFilter={setTag}
-          />
+          <PopularTags tags={tags} handleFilter={setTag} />
           <div className={styles.articlesWrap}>
             <div className={styles.feedNav}>
               <Tabs
@@ -111,10 +112,7 @@ const HomePage = observer(() => {
             </div>
             {!isLoading ? (
               data.articles.map((article) => (
-                <ArticlePreview
-                  key={article.slug}
-                  article={article}
-                />
+                <ArticlePreview key={article.slug} article={article} />
               ))
             ) : (
               <div className={styles.loaderWrap}>

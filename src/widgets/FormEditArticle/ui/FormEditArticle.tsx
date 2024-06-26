@@ -1,49 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FormButton } from '../../../shared/ui/FormButton';
 import { FormField } from '../../../shared/ui/FormField';
-import { useStores } from '../../../app/RootStore.context';
 import { updateArticle } from '../../../features/article/updateArticle/api/updateArticle';
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
+import { Article } from '../../../shared/utils/types';
+import { useEffect } from 'react';
 
-const defaultFormFields = {
-  title: '',
-  description: '',
-  body: '',
-  tagList: [] as string[],
-};
+interface ArticleProps {
+  article: Article;
+}
 
-const FormEditArticle = observer(() => {
-  const {
-    articlesStore: { article, fetchArticle },
-  } = useStores();
-  const [formFields, setFormFields] = useState(defaultFormFields);
+interface EditArticle {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
+const FormEditArticle = observer(({ article }: ArticleProps) => {
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      title: article.title,
+      description: article.description,
+      body: article.body,
+      tagList: article.tagList,
+    },
+  });
+
+  useEffect(() => {
+    reset({
+      title: article.title,
+      description: article.description,
+      body: article.body,
+      tagList: article.tagList,
+    });
+  }, [article, reset]);
+
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const submit = (data: EditArticle) => {
     if (!slug) return;
-    fetchArticle(slug, {
-      onError: () => navigate('/'),
-    });
-  }, [slug, fetchArticle, navigate]);
-
-  useEffect(() => {
-    if (article) {
-      setFormFields({
-        title: article.title || '',
-        description: article.description || '',
-        body: article.body || '',
-        tagList: article.tagList || [],
-      });
-    }
-  }, [article]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!slug) return;
-    updateArticle(slug, formFields)
+    updateArticle(slug, data)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Ошибка запроса');
@@ -53,54 +53,34 @@ const FormEditArticle = observer(() => {
       .then(() => navigate(`/`));
   };
 
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (e) => {
-    const { name, value } = e.target;
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [name]:
-        name === 'tagList' ? value.split(',').map((tag) => tag.trim()) : value,
-    }));
-  };
-
   return (
     <div className={styles.edit}>
-      <form
-        onSubmit={handleSubmit}
-        className={styles.formContainer}>
+      <form onSubmit={handleSubmit(submit)} className={styles.formContainer}>
         <FormField
+          {...register('title')}
           type='text'
-          onChange={handleChange}
           name='title'
-          value={formFields.title}
           placeholder='Article title'
         />
         <FormField
+          {...register('description')}
           type='text'
-          onChange={handleChange}
           name='description'
-          value={formFields.description}
           placeholder="What's this article about"
         />
         <FormField
+          {...register('body')}
           type='text'
-          onChange={handleChange}
           name='body'
-          value={formFields.body}
           placeholder='Write your article (in markdown)'
         />
         <FormField
+          {...register('tagList')}
           type='text'
-          onChange={handleChange}
           name='tagList'
-          value={formFields.tagList.join(', ')}
           placeholder='Enter tags'
         />
-        <FormButton
-          size='big'
-          nameBut='Publish article'
-        />
+        <FormButton size='big' nameBut='Publish article' />
       </form>
     </div>
   );

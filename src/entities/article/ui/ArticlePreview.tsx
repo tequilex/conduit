@@ -31,10 +31,7 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
     <div className={styles.articleCard}>
       <div className={styles.group}>
         <Link to={`/profiles/${username}`}>
-          <Author
-            date={createdAt}
-            author={author}
-          />
+          <Author date={createdAt} author={author} />
         </Link>
         {!user ? null : (
           <div
@@ -53,17 +50,12 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
         </div>
       </Link>
       <div className={styles.articleBottom}>
-        <Link
-          className={styles.cardLink}
-          to={`/articles/${slug}`}>
+        <Link className={styles.cardLink} to={`/articles/${slug}`}>
           Read more...
         </Link>
         <ul className={styles.tagList}>
           {tagList.map((tag) => (
-            <Tag
-              key={tag}
-              tag={tag}
-            />
+            <Tag key={tag} tag={tag} />
           ))}
         </ul>
       </div>

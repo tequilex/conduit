@@ -1,8 +1,15 @@
 import { authFetch } from '../../../../shared/api/apiAuth';
 
-export const createComment = (slug: string, bodyComment: string) => {
+interface CreateCommentRequest {
+  body: string;
+}
+
+export const createComment = (
+  slug: string,
+  bodyComment: CreateCommentRequest,
+) => {
   return authFetch(`/articles/${slug}/comments`, {
-    body: JSON.stringify({ comment: { body: bodyComment } }),
+    body: JSON.stringify({ comment: bodyComment }),
     method: 'POST',
   });
 };

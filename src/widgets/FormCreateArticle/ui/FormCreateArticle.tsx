@@ -1,77 +1,73 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormButton } from '../../../shared/ui/FormButton';
 import { FormField } from '../../../shared/ui/FormField';
-import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { createArticle } from '../../../features/article/createArticle/api/createArticle';
+import styles from './styles.module.scss';
 
-const defaultFormFields = {
-  title: '',
-  description: '',
-  body: '',
-  tagList: [],
-};
+interface CreateArticle {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string;
+}
 
 export function FormCreateArticle() {
-  const [formFields, setFormFields] = useState(defaultFormFields);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    createArticle(formFields)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Ошибка запроса');
-        }
-        return response.json();
-      })
-      .then(() => navigate('/'));
-  };
+  const { register, handleSubmit } = useForm<CreateArticle>({
+    defaultValues: {
+      title: '',
+      description: '',
+      body: '',
+      tagList: '',
+    },
+  });
 
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (e) => {
-    const { name, value } = e.target;
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [name]:
-        name === 'tagList' ? value.split(',').map((tag) => tag.trim()) : value,
-    }));
+  const submit = async (data: CreateArticle) => {
+    try {
+      const response = await createArticle({
+        ...data,
+        tagList: data.tagList.split(',').map((tag) => tag.trim()),
+      });
+      if (!response.ok) {
+        throw new Error('Ошибка запроса');
+      }
+      await response.json();
+      navigate(`/`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className={styles.edit}>
-      <form
-        onSubmit={handleSubmit}
-        className={styles.formContainer}>
+      <form onSubmit={handleSubmit(submit)} className={styles.formContainer}>
         <FormField
+          {...register('title')}
           type='text'
-          onChange={handleChange}
           name='title'
           placeholder='Article title'
         />
         <FormField
+          {...register('description')}
           type='text'
-          onChange={handleChange}
           name='description'
           placeholder="What's this article about"
         />
         <FormField
+          {...register('body')}
           type='text'
-          onChange={handleChange}
           name='body'
           placeholder='Write your article (in markdown)'
         />
         <FormField
+          {...register('tagList')}
           type='text'
-          onChange={handleChange}
           name='tagList'
           placeholder='Enter tags'
         />
-        <FormButton
-          size='big'
-          nameBut='Publish article'
-        />
+        <FormButton size='big' nameBut='Publish article' />
       </form>
     </div>
   );

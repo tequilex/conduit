@@ -4,7 +4,7 @@ interface FormFieldsProps {
   title: string;
   description: string;
   body: string;
-  tagList: never[];
+  tagList: string[];
 }
 
 export const createArticle = (formFields: FormFieldsProps) => {

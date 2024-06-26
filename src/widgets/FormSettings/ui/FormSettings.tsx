@@ -1,88 +1,73 @@
-import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormButton } from '../../../shared/ui/FormButton';
 import { FormField } from '../../../shared/ui/FormField';
-import { User } from '../../../shared/utils/types';
 import styles from './styles.module.scss';
 import { useStores } from '../../../app/RootStore.context';
 import { updateProfile } from '../../../features/profile/updateProfile/api/updateProfile';
 
-const defaultFormFields = {
-  username: '',
-  email: '',
-  password: '',
-  image: '',
-  bio: '',
-};
+interface Fields {
+  username: string;
+  email: string;
+  password: string;
+  image: string;
+  bio: string;
+}
 
 export function FormSettings() {
   const {
     userStore: { user, setUser },
   } = useStores();
-  const [formFields, setFormFields] = useState<User>(defaultFormFields);
-  const { image, username, email, bio } = formFields;
 
-  useEffect(() => {
-    if (!user) return;
-    setFormFields(user);
-  }, [user]);
+  const { register, handleSubmit } = useForm<Fields>({
+    defaultValues: {
+      username: user?.username,
+      email: user?.email,
+      password: '',
+      image: user?.image,
+      bio: user?.bio,
+    },
+  });
 
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (e) => {
-    const { name, value } = e.target;
-    setFormFields({ ...formFields, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    updateProfile(formFields)
+  const submit = (data: Fields) => {
+    updateProfile(data)
       .then((response) => response.json())
       .then((response) => setUser(response.user));
   };
 
   return (
     <div className={styles.form}>
-      <form
-        onSubmit={handleSubmit}
-        className={styles.formContainer}>
+      <form onSubmit={handleSubmit(submit)} className={styles.formContainer}>
         <FormField
-          onChange={handleChange}
+          {...register('image')}
           placeholder='Url of profile picture'
-          value={image || ''}
           type='text'
           name='image'
         />
         <FormField
-          onChange={handleChange}
+          {...register('username')}
           placeholder='Username'
-          value={username || ''}
           type='text'
           name='username'
         />
         <FormField
+          {...register('bio')}
           className={styles.textarea}
           placeholder='Short bio about you'
-          value={bio || ''}
-          onChange={handleChange}
           name='bio'
         />
         <FormField
-          onChange={handleChange}
+          {...register('email')}
           placeholder='Email'
-          value={email || ''}
           type='email'
           name='email'
         />
         <FormField
-          onChange={handleChange}
+          {...register('password')}
           placeholder='New password'
           type='password'
           name='password'
         />
-        <FormButton
-          size='big'
-          nameBut='Update setting'
-        />
+        <FormButton size='big' nameBut='Update setting' />
       </form>
     </div>
   );
