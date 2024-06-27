@@ -15,9 +15,7 @@ export function DeleteArticle({ slug }: DeleteArticleProps) {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className={styles.deleteButton}>
+    <button onClick={handleDelete} className={styles.deleteButton}>
       Delete Article
     </button>
   );

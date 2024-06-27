@@ -4,10 +4,11 @@ import { Container } from '../../../shared/ui/Container/index.ts';
 import { PopularTags } from '../../../entities/tag/ui/index.ts';
 import { Loader } from '../../../shared/ui/Loader/index.ts';
 import { Tabs } from '../../../shared/ui/Tabs/index.ts';
-import styles from './styles.module.scss';
 import { useMemo, useState, useEffect } from 'react';
 import { useStores } from '../../../app/RootStore.context.ts';
 import { observer } from 'mobx-react-lite';
+import { useSearchParams } from 'react-router-dom';
+import styles from './styles.module.scss';
 
 const defaultTabs = [
   {
@@ -27,56 +28,65 @@ const HomePage = observer(() => {
     articlesStore: {
       data,
       isLoading,
-      tag,
-      currentPage,
       totalPages,
       fetchAllArticles,
       fetchFeedArticles,
       fetchFilteredArticles,
-      setPage,
-      setTag,
     },
   } = useStores();
 
-  const [activeTab, setActiveTab] = useState(defaultTabs[0].key);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = Number(searchParams.get('page') || 1);
+  const tagParam = searchParams.get('tag') || '';
+  const activeTabFromParams = searchParams.get('tab') || defaultTabs[0].key;
+  const [activeTab, setActiveTab] = useState(activeTabFromParams);
 
   useEffect(() => {
     fetchTags();
-  }, [fetchTags]);
+  }, [fetchTags, page, searchParams, setSearchParams]);
 
   useEffect(() => {
-    if (activeTab === '1') fetchAllArticles(10);
-    if (activeTab === '2') fetchFeedArticles(10);
-    if (activeTab === '3') fetchFilteredArticles(10, tag);
+    if (!tagParam && activeTab === '3') {
+      setActiveTab(defaultTabs[0].key);
+    } else {
+      if (activeTab === '1') fetchAllArticles(10, page);
+      if (activeTab === '2') fetchFeedArticles(10, page);
+      if (activeTab === '3') fetchFilteredArticles(10, tagParam, page);
+    }
   }, [
-    currentPage,
-    tag,
+    searchParams,
+    activeTab,
+    page,
+    tagParam,
     fetchAllArticles,
     fetchFeedArticles,
     fetchFilteredArticles,
-    activeTab,
   ]);
 
   const tabsWithTags = useMemo(() => {
     const tabs = user
       ? defaultTabs
       : defaultTabs.filter((tab) => tab.key !== '2');
-    if (tag) {
-      setActiveTab('3');
+    if (tagParam) {
       return [
         ...tabs,
         {
           key: '3',
-          name: tag,
+          name: tagParam,
         },
       ];
     }
 
     return tabs;
-  }, [tag, user]);
+  }, [tagParam, user]);
 
   const handlePageChange = (page: number) => {
-    setPage(page);
+    setSearchParams({
+      page: String(page),
+      tab: activeTab,
+      ...(tagParam && { tag: tagParam }),
+    });
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
@@ -84,10 +94,13 @@ const HomePage = observer(() => {
   };
 
   const handleTabs = (key: string) => {
-    if (key !== '3') {
-      setTag('');
-    }
+    setSearchParams({ page: '1', tab: key });
     setActiveTab(key);
+  };
+
+  const handleTagClick = (tag: string) => {
+    setSearchParams({ page: '1', tab: '3', tag });
+    setActiveTab('3');
   };
 
   return (
@@ -100,14 +113,14 @@ const HomePage = observer(() => {
       </div>
       <Container>
         <div className={styles.feedWrap}>
-          <PopularTags tags={tags} handleFilter={setTag} />
+          <PopularTags tags={tags} handleFilter={handleTagClick} />
           <div className={styles.articlesWrap}>
             <div className={styles.feedNav}>
               <Tabs
                 items={tabsWithTags}
                 handleTabs={handleTabs}
                 activeKey={activeTab}
-                onChange={(key) => setActiveTab(key)}
+                onChange={setActiveTab}
               />
             </div>
             {!isLoading ? (
@@ -120,7 +133,7 @@ const HomePage = observer(() => {
               </div>
             )}
             <Pagination
-              currentPage={currentPage}
+              currentPage={page}
               totalPages={totalPages(10)}
               handlePageChange={handlePageChange}
             />

@@ -8,6 +8,7 @@ import { Loader } from '../../../shared/ui/Loader/Loader.tsx';
 import styles from './styles.module.scss';
 import { useState, useEffect } from 'react';
 import { useStores } from '../../../app/RootStore.context.ts';
+import { useSearchParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 const defaultTabs = [
@@ -22,23 +23,27 @@ const defaultTabs = [
 ];
 
 const Profile = observer(() => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const {
     userStore: { user },
     profileStore: { profile, fetchProfile, clearProfile },
     articlesStore: {
       data,
-      currentPage,
       totalPages,
-      setPage,
       fetchUserArticles,
       fetchFavoritedArticles,
     },
   } = useStores();
 
-  const [activeTab, setActiveTab] = useState(defaultTabs[0].key);
   const { username } = useParams<{ username: string }>();
 
   const navigate = useNavigate();
+
+  const page = Number(searchParams.get('page') || 1);
+  const activeTabFromParams = searchParams.get('tab') || defaultTabs[0].key;
+
+  const [activeTab, setActiveTab] = useState(activeTabFromParams);
 
   useEffect(() => {
     if (!username) return;
@@ -51,10 +56,9 @@ const Profile = observer(() => {
   }, [fetchProfile, navigate, username, clearProfile]);
 
   useEffect(() => {
-    setPage(1);
-    if (activeTab === '1') fetchUserArticles(5, username);
-    if (activeTab === '2') fetchFavoritedArticles(5, username);
-  }, [activeTab, fetchUserArticles, fetchFavoritedArticles, username, setPage]);
+    if (activeTab === '1') fetchUserArticles(5, username, page);
+    if (activeTab === '2') fetchFavoritedArticles(5, username, page);
+  }, [activeTab, fetchUserArticles, fetchFavoritedArticles, username, page]);
 
   const isLoginProfile = username === user?.username;
 
@@ -67,15 +71,20 @@ const Profile = observer(() => {
   }
 
   const handlePageChange = (page: number) => {
-    setPage(page);
+    setSearchParams({ page: String(page), tab: activeTab });
     if (activeTab === '1') {
-      fetchUserArticles(5, username);
+      fetchUserArticles(5, username, page);
     } else if (activeTab === '2') {
-      fetchFavoritedArticles(5, username);
+      fetchFavoritedArticles(5, username, page);
     }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const handleTabs = (key: string) => {
+    setSearchParams({ page: '1', tab: key });
     setActiveTab(key);
   };
 
@@ -96,13 +105,10 @@ const Profile = observer(() => {
           />
         ) : null}
         {data.articles.map((article) => (
-          <ArticlePreview
-            key={article.slug}
-            article={article}
-          />
+          <ArticlePreview key={article.slug} article={article} />
         ))}
         <Pagination
-          currentPage={currentPage}
+          currentPage={page}
           totalPages={totalPages(5)}
           handlePageChange={handlePageChange}
         />

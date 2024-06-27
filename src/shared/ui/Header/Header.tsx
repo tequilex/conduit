@@ -21,32 +21,24 @@ const Header = observer(() => {
       <div className={styles.header}>
         <Container>
           <div className={styles.container}>
-            <Link
-              className={styles.home}
-              to='/'>
+            <Link className={styles.home} to='/'>
               conduit
             </Link>
             <ul className={styles.headerList}>
               <li className={styles.headerItem}>
-                <Link
-                  className={styles.headerLink}
-                  to='/'>
+                <Link className={styles.headerLink} to='/'>
                   Home
                 </Link>
               </li>
               {user ? (
                 <>
                   <li className={styles.headerItem}>
-                    <Link
-                      className={styles.headerLink}
-                      to='/editor'>
+                    <Link className={styles.headerLink} to='/editor'>
                       New article
                     </Link>
                   </li>
                   <li className={styles.headerItem}>
-                    <Link
-                      className={styles.headerLink}
-                      to='/settings'>
+                    <Link className={styles.headerLink} to='/settings'>
                       Settings
                     </Link>
                   </li>
@@ -63,9 +55,7 @@ const Header = observer(() => {
                     </Link>
                   </li>
                   <Link to={'/'}>
-                    <li
-                      onClick={logOut}
-                      className={styles.headerLink}>
+                    <li onClick={logOut} className={styles.headerLink}>
                       Log out
                     </li>
                   </Link>
@@ -73,16 +63,12 @@ const Header = observer(() => {
               ) : (
                 <>
                   <li className={styles.headerItem}>
-                    <Link
-                      className={styles.headerLink}
-                      to='/signIn'>
+                    <Link className={styles.headerLink} to='/signIn'>
                       Sign in
                     </Link>
                   </li>
                   <li className={styles.headerItem}>
-                    <Link
-                      className={styles.headerLink}
-                      to='/signUp'>
+                    <Link className={styles.headerLink} to='/signUp'>
                       Sign up
                     </Link>
                   </li>
